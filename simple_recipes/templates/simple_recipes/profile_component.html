@@ -1,0 +1,24 @@
+{% load static %}
+{% block content %}
+
+<h3>@{{user.username}} ({{profile.name}})</h3>
+{% if request.user == user %}
+  <a href="{% url 'update-profile' %}">Edit profile</a>
+{% endif %}
+
+<p class="article-meta">
+  Member since: {{user.date_joined|timesince}} ago
+  Last login: {{user.last_login|timesince}} ago
+</p>
+
+<div class="uk-text-left">
+  {% if profile.avatar %}
+    <img width="600" height="400" src="{% static profile.avatar.url %}" alt="Avatar goes here">
+  {% else %}
+    <img width="600" height="400" src="{% static 'images/100-HappyPenguin.png' %}" alt="Generic avatar">
+  {% endif %}
+  <br><br>
+  <div class="uk-article-lead">About me: {{profile.bio}}</div>
+</div>
+
+{% endblock content %}

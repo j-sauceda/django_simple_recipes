@@ -1,0 +1,86 @@
+{% load static %}
+{% block content %}
+
+<h3>Recent articles</h3>
+
+<form action="" class="uk-search" data-uk-search>
+  {% csrf_token %}
+  <input 
+    class="uk-search-field uk-width-1-1 uk-margin-bottom" 
+    name="q" 
+    placeholder="Search recipes by title or content"
+    type="search" 
+  >
+</form>
+
+<div class="uk-margin-bottom">
+  {% if request.user.is_authenticated %}
+    <a class="uk-button uk-button-primary" href="{% url 'create-article' %}">Submit new article</a>
+  {% endif %}
+</div>
+
+<div class="uk-grid uk-grid-width-small-1-1" data-uk-grid-margin>
+  {% for article in articles %}
+    <article class="uk-article">
+      <div class="uk-width-medium-3-4">
+        <h1 class="uk-article-title uk-text-break">
+          <a href="{% url 'read-article' article.id %}">{{ article.title }}</a>
+        </h1>
+      </div>
+
+      <p class="uk-article-meta uk-display-inline">
+        Written by <a href="{% url 'user-profile' article.author.user.id %}">{{article.author}}</a> on {{article.date}}</a>  
+        {% for category in article.categories.all %}
+          <div class="uk-badge">
+            <span class="uk-text-capitalize">{{category.name}}</span>
+          </div>
+        {% endfor %}
+      </p>
+
+      {% if article.pictureOf.all.count > 0 %}
+        <p class="uk-article-lead">
+          <a href="{% url 'read-article' article.id %}"><img width="200" height="200" src="{% static article.pictureOf.all.first.image.url %}" alt="Recipe picture"></a>
+        </p>
+      {% endif %}
+
+      <div class="uk-width-medium-3-4">
+        <p class="uk-text-break">
+          {% autoescape off %}{{ article.abstract }}{% endautoescape %}
+        </p>
+      </div>
+
+      <p>
+        <a class="uk-button uk-button-primary" href="{% url 'read-article' article.id %}">Continue Reading</a>
+        <span class="uk-button">{{article.commentOf.all.count}} Comments</span>
+      </p>
+    </article>
+  {% endfor %}
+</div>
+
+
+<!-- Pagination -->
+{% if art_pages > 1 %}
+  <ul class="uk-pagination">
+    {% if articles.has_previous %}
+      <li class="uk-pagination-previous"><a href="{% url 'home' %}?art_page={{articles.previous_page_number}}">Previous</a></li>
+    {% else %}
+      <li class="uk-pagination-previous uk-disabled"><span>Previous</span></li>
+    {% endif %}
+    
+    {% for i in art_range %}
+      {% if i == articles.number %}
+        <li class="uk-active"><span>{{i}}</span></li>
+      {% else %}
+        <li><a href="{% url 'home' %}?art_page={{i}}">{{i}}</a></li>
+      {% endif %}
+    {% endfor %}
+    
+    {% if articles.has_next %}
+      <li class="uk-pagination-next"><a href="{% url 'home' %}?art_page={{articles.next_page_number}}">Next</a></li>
+    {% else %}
+      <li class="uk-pagination-next uk-disabled"><span>Next</span></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+
+{% endblock content %}

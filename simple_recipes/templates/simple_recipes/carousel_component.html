@@ -1,0 +1,114 @@
+{% load static %}
+{% block content %}
+
+<h5>Picture gallery</h5>
+
+{% if pictures.count > 0 %}
+  <!-- Show carousel -->
+  <div class="uk-slidenav-position" data-uk-slider="{autoplay: true}">
+    <div class="uk-slider-container">
+      <ul class="uk-slider uk-grid-width-small-1-1 uk-grid-width-medium-1-2 uk-grid-width-large-1-3">
+        {% for picture in pictures %}
+          <li><img width="600" height="400" src="{% static picture.image.url %}" alt="Recipe picture"></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-previous" data-uk-slider-item="previous"></a>
+    <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-next" data-uk-slider-item="next"></a>
+  </div>
+  <br>
+  {% if article.author.user.id == request.user.id %}
+    <div class="uk-align-center">
+      <!-- UploadPictures Modal Trigger -->
+      <a class="uk-button uk-button-primary uk-button-large" data-uk-modal="{target:'#upload-pictures-modal'}"><i class="uk-icon-upload"></i> Upload Pictures</a>
+      <!-- UploadPictures Modal Structure -->
+      <div id="upload-pictures-modal" class="uk-modal">
+        <div class="uk-modal-dialog">
+          <div class="uk-modal-header"><h4>Upload Pictures</h4></div>
+          <form action="{% url 'upload-pictures' article.id %}" method="POST" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            <div class="uk-form-row">
+              <div class="uk-form-file">
+                <input 
+                  accept="image/*" 
+                  id="id_image" 
+                  multiple=""
+                  name="image" 
+                  type="file" 
+                  required
+                >
+              </div>
+            </div>
+            <br><br>
+            <div class="uk-modal-footer">
+              <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
+              <input class="uk-button uk-button-success uk-button-large" type="submit" value="Submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- deletePictures modal trigger -->
+      <a class="uk-button uk-button-danger uk-button-large" data-uk-modal="{target:'#delete-pictures-modal'}"><i class="uk-icon-trash"></i> Delete Pictures</a>
+      <!-- delete-article modal -->
+      <div id="delete-pictures-modal" class="uk-modal">
+        <div class="uk-modal-dialog">
+          <div class="uk-modal-header"><h4>Delete Pictures</h4></div>
+          {% for picture in pictures %}
+            <article class="uk-comment">
+              <header class="uk-comment-header">
+                <img width="60" height="60" class="uk-comment-avatar" src="{% static picture.image.url %}" alt="{{picture.image}}">
+                <h4 class="uk-comment-title">
+                  {{picture.image}}
+                  <a href="{% url 'delete-picture' picture.image %}" class="uk-button uk-button-danger uk-button-large uk-align-right">
+                    <i class="uk-icon-trash"></i> Delete
+                  </a>
+                </h4>
+              </header>
+<!--               <div class="uk-comment-body">
+              </div> -->
+            </article>
+          {% endfor %}
+          <div class="uk-modal-footer">
+            <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% else %}
+  {% if article.author.user.id == request.user.id %}
+    <div class="uk-align-center">
+      <!-- UploadPictures Modal Trigger -->
+      <a class="uk-button uk-button-primary uk-button-large" data-uk-modal="{target:'#upload-pictures-modal'}"><i class="uk-icon-upload"></i> Upload Pictures</a>
+      <!-- UploadPictures Modal Structure -->
+      <div id="upload-pictures-modal" class="uk-modal">
+        <div class="uk-modal-dialog">
+          <div class="uk-modal-header"><h4>Upload Pictures</h4></div>
+          <form action="{% url 'upload-pictures' article.id %}" method="POST" enctype="multipart/form-data" class="uk-form">
+            {% csrf_token %}
+            <div class="uk-form-row">
+              <div class="uk-form-file">
+                <label for="id_image">Choose files</button>
+                <input 
+                  accept="image/*" 
+                  id="id_image" 
+                  multiple=""
+                  name="image" 
+                  type="file" 
+                  required
+                >
+              </div>
+            </div>
+            <div class="uk-modal-footer">
+              <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
+              <input class="uk-button uk-button-success uk-button-large" type="submit" value="Submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+{% endblock content %}

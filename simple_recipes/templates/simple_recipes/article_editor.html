@@ -1,0 +1,94 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+{% if article == None %}
+<div class="uk-height-1-1 uk-container-center">
+<div class="uk-alert">
+  Note: you will be able to create an image gallery after submitting your article
+</div>
+{% else %}
+<div class="uk-width-medium-3-4 uk-container-center">
+{% endif %}
+  <h4 class="uk-article-title">
+    {% if article %}Edit article | <a href="{% url 'read-article' article.id %}">View your article</a>{% else %}Create a new article {% endif %}
+  </h4>
+  <normal class="uk-article-meta">
+    * Fields with an asterisk are mandatory
+  </normal>
+  
+  <form method="POST" action="" enctype="multipart/form-data" class="uk-panel uk-panel-box uk-form uk-form-horizontal">
+    {% csrf_token %}
+    
+    <div class="uk-form-row">
+      <div class="uk-inline">
+        <i class="uk-icon-user"></i>
+        <label for="id_title">Title*:</label>
+        <input 
+          class="uk-form-width-medium" 
+          id="id_title" 
+          maxlength="50" 
+          name="title" 
+          required 
+          type="text" 
+          {% if article.title %}
+            value="{{article.title}}"
+          {% else %}
+            placeholder="Insert article title"
+          {% endif %}
+        />
+      </div>
+    </div>
+    
+    <div class="uk-form-row uk-margin-bottom">
+      <div class="uk-inline">
+        <i class="uk-icon-map"></i>
+        <label for="id_categories">Categories*:</label>
+        <div class="uk-button uk-form-select" data-uk-form-select>
+          <span></span>
+          <select 
+            id="id_categories" 
+            name="categories" 
+            multiple
+            required
+          >
+            <option value="" disabled>Please choose one or more</option>
+            {% for category in categories %}
+              {% if category in article.categories.all %}
+                <option value="{{category.id}}" selected="" class="uk-block-primary">{{category.name}}</option>
+              {% else %}
+                <option value="{{category.id}}">{{category.name}}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="uk-form-stacked">
+      <i class="uk-icon-newspaper-o"></i>
+      <label for="id_body">Recipe (HTML text editor below):</label>
+      <textarea
+        class="uk-text-left"
+        id="id_body"
+        name="body"
+        placeholder="Write your recipe here, there is no character number limit"
+        data-uk-htmleditor="{ 
+          markdown:true;
+        }"
+      >{{article.body}}</textarea>
+    </div>
+  
+    <div class="uk-form-row">
+      <input class="uk-width-1-1 uk-button uk-button-primary uk-button-large" type="submit" value="Submit" />
+    </div>
+  </form>
+</div>
+
+{% if article != None %}
+  <div class="uk-width-medium-1-4">
+    {% include 'simple_recipes/carousel_component.html' %}
+  </div>
+{% endif %}
+  
+{% endblock content %}

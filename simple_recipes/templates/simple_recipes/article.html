@@ -1,0 +1,131 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="uk-width-medium-1-4">
+  {% include 'simple_recipes/categories_component.html' %}
+</div>
+
+<div class="uk-width-medium-3-4">
+  <article class="uk-article">
+    <div class="uk-width-medium-3-4">
+      <h1 class="uk-article-title uk-text-break">
+        <a href="#">{{ article.title }}</a>
+      </h1>
+    </div>
+
+    <div>
+      {% if article.author.user.id == request.user.id %}
+        <a class="uk-button uk-button-primary uk-button-large" href="{% url 'update-article' article.id %}"><i class="uk-icon-edit"></i> Edit</a>
+        <!-- modal trigger -->
+        <a class="uk-button uk-button-danger uk-button-large" data-uk-modal="{target:'#delete-modal'}"><i class="uk-icon-trash"></i> Delete</a>
+        <!-- delete-article modal -->
+        <div id="delete-modal" class="uk-modal">
+          <div class="uk-modal-dialog">
+            <p>
+              Delete article '{{article.title}}'?
+              This is a permanent action
+            </p>
+            <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
+            <a class="uk-button uk-button-danger uk-button-large" href="{% url 'delete-article' article.id %}">Delete</a>
+          </div>
+        </div>
+        <br><br>
+      {% endif %}
+    </div>
+
+    <p class="uk-article-meta uk-display-inline">
+      Written by <a href="{% url 'user-profile' article.author.user.id %}">
+        {{article.author}}
+      </a> on {{article.date}}Categories: 
+      {% for category in article.categories.all %}
+        <div class="uk-badge">
+          <span>{{category.name}}</span>
+        </div>
+      {% endfor %}
+    </p>
+
+    {% include 'simple_recipes/carousel_component.html' %}
+
+    <div class="uk-width-medium-3-4">
+      <p class="uk-text-break">
+        {% autoescape off %}{{ article.body }}{% endautoescape %}
+      </p>
+    </div>
+
+    
+    <!--  Comments form and list  -->
+    <ul class="uk-list uk-list-striped uk-width-medium-3-4>
+        {% if comments.count == 0 and request.user.is_authenticated %}
+          <li class="uk-panel">
+            <form class="uk-form uk-form-help-inline" action="{% url 'create-comment' article.id %}" method="POST">
+              {% csrf_token %}
+              <textarea class="uk-form-large uk-form-width-large uk-responsive-width" type="text" maxlength="300" name="new_comment" placeholder="Be the first one to comment"></textarea>
+              <input class="uk-button uk-button-primary uk-button-large" type="submit" value="Submit" />
+            </form>
+          </li>
+        {% else %}
+          {% if request.user.is_authenticated %}
+            <li class="uk-panel">
+              <form class="uk-form uk-form-help-inline" action="{% url 'create-comment' article.id %}" method="POST">
+                {% csrf_token %}
+                <textarea class="uk-form-large uk-form-width-large uk-responsive-width" type="text" maxlength="300" name="new_comment" placeholder="Join the conversation"></textarea>
+                <input class="uk-button uk-button-primary uk-button-large" type="submit" value="Submit" />
+              </form>
+            </li>
+          {% else %}
+            <li class="uk-panel">
+              <p class="uk-panel-title">
+                <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to join the conversation
+              </p>
+            </li>
+          {% endif %}
+
+          
+          {% for comment in comments %}
+            <li class="uk-comment">
+              <div class="uk-comment-header">
+                {% if comment.commentor.avatar %}
+                  <img 
+                    class="uk-comment-avatar" 
+                    src="{% static comment.commentor.avatar.url %}" 
+                    alt="Avatar goes here"
+                    >
+                {% else %}
+                  <img 
+                    class="uk-comment-avatar" 
+                    src="{% static 'images/100-HappyPenguin.png' %}" 
+                    alt="Generic avatar"
+                  >
+                {% endif %}
+                <h4 class="uk-comment-title uk-text-break">
+                  <a href="{% url 'user-profile' comment.commentor.user.id %}">
+                    {{ comment.commentor.name }}
+                  </a>
+                </h4>
+                <div class="uk-comment-meta">On {{comment.date}}</div>
+                <div class="uk-comment-body">
+                  <p class="uk-text-break">
+                    {{ comment.text }}
+                  </p>
+                  {% if comment.commentor.user.id == request.user.id %}
+                  <div class="uk-panel">
+                    <div class="uk-panel-badge uk-badge uk-badge-danger" style="margin-top: -30px;">
+                      <a href="{% url 'delete-comment' article.id comment.id %}">
+                        <i 
+                          class="uk-icon-trash uk-icon-large uk-link-muted" 
+                          style="color: white;"
+                        ></i>
+                      </a>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+  </article>
+</div>
+{% endblock %}

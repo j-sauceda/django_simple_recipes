@@ -6,11 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- UiKit CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css" /> <!-- uk-min -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/components/htmleditor.css" integrity="sha512-ST9OpIZdlHPOpIcnTi21VOnLTsCuW0fl0l9ej/84hHt37P5Gpi58ELNnRJF3/dep7kdLf8iaxi75Dnk8In2vdw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- uk-htmleditor -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/components/slider.css" integrity="sha512-pFX5ddP8AGB2r2hb+a86J2ofirQ8DP9/abDWMJU7ufJFBofk1yjhN/LYQiIknR/M+N20xseBjIJ5OO5MHi8iXA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- uk-slider -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/components/slidenav.css" integrity="sha512-X5MiGS6BiKQQdt2/q5bVIDnkmqd6gycuBa9TVxH3RgSMema3ggxKx0z2kZCTA8tA9WOhY6U28PAezSOX3HlepQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- uk-slidenav -->
-  <!-- CodeMirror CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.css" integrity="sha512-7vaQ4LLdaXd2IuMd4MUQ6LRFIGbEwJI1aq6KYqL3RjbdQyUkRFhwZKmqmkBXurTFdGlx687lTN8FSJfX6Df8Gw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- cm -->
+  <!-- Summernote CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+  <!-- JQuery JS -->
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <!-- UiKit JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script> <!-- uk-min -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/components/slider.js" integrity="sha512-XQspfMCjhy6XG6y22B5MXQI9tXtgE/apFKDrCWwjJBEx+Q75E9wAu7sxJlq5YzdnlsS5cel0pEGcMFFd+kUiZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- uk-slider -->
+  <!-- Summernote editor JS -->
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+  
   <title>Simple Recipes</title>
 </head>
 <body>
@@ -23,20 +31,5 @@
       {% endblock content %}
     </div>
   </div>
-
-  <!-- JQuery JS -->
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-  <!-- UiKit JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script> <!-- uk-min -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/components/htmleditor.min.js" integrity="sha512-5MXWwkAdvsj94g1+JnaEmzHG1EirQvOppd+NZXaI87NxzAOWfsE/G9gAijDk+arNahx0SMJu1AnR2P8KLTq3rA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- uk-htmleditor -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/components/slider.js" integrity="sha512-XQspfMCjhy6XG6y22B5MXQI9tXtgE/apFKDrCWwjJBEx+Q75E9wAu7sxJlq5YzdnlsS5cel0pEGcMFFd+kUiZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- uk-slider -->
-  <!-- CodeMirror JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.js" integrity="sha512-4i/wqLBUQRN1JXTwHTYjnZXUVi57tiOAMehaWWLqCXJpaIz9tgtOKJuEPUuBZ0+G7Bh/XJIsU/+gTCHBOWlFTw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- cm -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/markdown/markdown.js" integrity="sha512-HO6T6BeQvqVauqK9yn7/pkoiaaowmxIbN0Q15kjsM/8oJJ3seJI0/DlEqlEosGrpNkhPowUkV9hvrVtB+rqoDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- cm-markdown -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/mode/overlay.js" integrity="sha512-PgX9nlQJy1wPwaS+m27dm+k7s9s0qExVtRMpTJhRQufqL8obarou6mkuzLKV4CQ9qwamfoSSNhtHll55rOVFHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- cm-overlay -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.js" integrity="sha512-zWiFnvx+BKIYp7HwMXQRKR3SC8AiS6wQchjjjtAV9bt34F54fwJMB//7hVm0C+kQywyStbJ00u9i07Qw9ARuqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- cm-xml -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/gfm/gfm.js" integrity="sha512-8PxTcBa2zsOag2WJ9oZZIBSzKwDBFgSrVtcUtEAMTh70soJWfpWbht1orbu4zWR16tEY5vd8eRAk/cO0ZKd/3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- cm-gfm -->
-  <!-- Marked JS - for more info: https://github.com/markedjs/marked -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 </html>

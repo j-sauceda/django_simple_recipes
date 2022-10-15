@@ -65,17 +65,33 @@
       </div>
     </div>
 
+    <!-- Initialize the Summernote editor -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#id_body').summernote({
+          tabsize: 2,
+          height: 120,
+          toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+          ]
+        });
+      });
+    </script>
+
     <div class="uk-form-stacked">
       <i class="uk-icon-newspaper-o"></i>
       <label for="id_body">Recipe (HTML text editor below):</label>
-      <textarea
-        class="uk-text-left"
+      <textarea 
         id="id_body"
         name="body"
         placeholder="Write your recipe here, there is no character number limit"
-        data-uk-htmleditor="{ 
-          markdown:true;
-        }"
       >{{article.body}}</textarea>
     </div>
   

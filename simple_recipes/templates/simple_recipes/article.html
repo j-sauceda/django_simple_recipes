@@ -2,130 +2,170 @@
 {% load static %}
 {% block content %}
 
-<div class="uk-width-medium-1-4">
-  {% include 'simple_recipes/categories_component.html' %}
-</div>
+<div class="grid medium-space">
+  <div class="s12 m3 l3">
+    {% include 'simple_recipes/categories_component.html' %}
+  </div>
 
-<div class="uk-width-medium-3-4">
-  <article class="uk-article">
-    <div class="uk-width-medium-3-4">
-      <h1 class="uk-article-title uk-text-break">
-        <a href="#">{{ article.title }}</a>
-      </h1>
-    </div>
+  <div class="s12 m9 l9">
+    <article class="center-align" style="padding: 1rem 2rem">
+      <h5 class="center-align">{{ article.title }}</h5>
 
-    <div>
-      {% if article.author.user.id == request.user.id %}
-        <a class="uk-button uk-button-primary uk-button-large" href="{% url 'update-article' article.id %}"><i class="uk-icon-edit"></i> Edit</a>
-        <!-- modal trigger -->
-        <a class="uk-button uk-button-danger uk-button-large" data-uk-modal="{target:'#delete-modal'}"><i class="uk-icon-trash"></i> Delete</a>
-        <!-- delete-article modal -->
-        <div id="delete-modal" class="uk-modal">
-          <div class="uk-modal-dialog">
-            <p>
-              Delete article '{{article.title}}'?
+      <div>
+        {% if article.author.user.id == request.user.id %}
+          <a
+            class="button small-round" 
+            href="{% url 'update-article' article.id %}"
+          >
+            <span>Edit article</span>
+            <i class="fa-regular fa-pen-to-square"></i>
+          </a>
+          <!-- modal trigger -->
+          <button 
+            class="small-round error" 
+            data-ui="#delete-modal"
+          >
+            <span>Delete article</span>
+            <i class="fa-regular fa-trash-can"></i>
+          </button>
+          <!-- delete-article modal -->
+          <dialog id="delete-modal" class="dialog">
+            <h6 class="center-align">Delete article</h6>
+            <p class="center-align">
+              Are you sure about deleting {{article.title}}?
+              <br/>
               This is a permanent action
             </p>
-            <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
-            <a class="uk-button uk-button-danger uk-button-large" href="{% url 'delete-article' article.id %}">Delete</a>
-          </div>
-        </div>
-        <br><br>
-      {% endif %}
-    </div>
+            <nav class="center-align">
+              <button class="small-round" data-ui="#delete-modal">
+                Cancel
+              </button>
+              <a 
+                class="button small-round error" 
+                href="{% url 'delete-article' article.id %}"
+                data-ui="#delete-modal"
+              >
+                Delete
+              </a>
+            </nav>
+          </dialog>
+        {% endif %}
+      </div>
 
-    <p class="uk-article-meta uk-display-inline">
-      Written by <a href="{% url 'user-profile' article.author.user.id %}">
-        {{article.author}}
-      </a> on {{article.date}}Categories: 
-      {% for category in article.categories.all %}
-        <div class="uk-badge">
-          <span>{{category.name}}</span>
-        </div>
-      {% endfor %}
-    </p>
+      <div class="small-space"></div>
 
-    {% include 'simple_recipes/carousel_component.html' %}
+      <p class="medium-line medium-align">
+        Written by <a href="{% url 'user-profile' article.author.user.id %}">
+          {{article.author}}
+        </a> on {{article.date}}
+        {% for category in article.categories.all %}
+          <span class="chip fill">{{category.name}}</span>
+        {% endfor %}
+      </p>
 
-    <div class="uk-width-medium-3-4">
-      <p class="uk-text-break">
+      {% include 'simple_recipes/carousel_component.html' %}
+
+      <div class="medium-space"></div>
+
+      <p class="medium-line" style="margin: 0.5rem 2rem">
         {% autoescape off %}{{ article.body }}{% endautoescape %}
       </p>
-    </div>
 
-    
-    <!--  Comments form and list  -->
-    <ul class="uk-list uk-list-striped uk-width-medium-3-4>
+      <div class="small-space"></div>
+
+      <h6>Comments section</h6>
+
+      <!--  Comments form and list  -->
+      <div class="medium-line center-align">
         {% if comments.count == 0 and request.user.is_authenticated %}
-          <li class="uk-panel">
-            <form class="uk-form uk-form-help-inline" action="{% url 'create-comment' article.id %}" method="POST">
-              {% csrf_token %}
-              <textarea class="uk-form-large uk-form-width-large uk-responsive-width" type="text" maxlength="300" name="new_comment" placeholder="Be the first one to comment"></textarea>
-              <input class="uk-button uk-button-primary uk-button-large" type="submit" value="Submit" />
-            </form>
-          </li>
+          <form action="{% url 'create-comment' article.id %}" method="POST">
+            {% csrf_token %}
+            <div class="field textarea border extra">
+              <textarea 
+                type="text" 
+                maxlength="300" 
+                name="new_comment" 
+              ></textarea>
+              <span class="helper">Be the first one to comment</span>
+            </div>
+            
+            <input 
+              class="button small-round" 
+              type="submit" 
+              value="Submit comment" 
+            />
+          </form>
         {% else %}
           {% if request.user.is_authenticated %}
-            <li class="uk-panel">
-              <form class="uk-form uk-form-help-inline" action="{% url 'create-comment' article.id %}" method="POST">
-                {% csrf_token %}
-                <textarea class="uk-form-large uk-form-width-large uk-responsive-width" type="text" maxlength="300" name="new_comment" placeholder="Join the conversation"></textarea>
-                <input class="uk-button uk-button-primary uk-button-large" type="submit" value="Submit" />
-              </form>
-            </li>
+            <form action="{% url 'create-comment' article.id %}" method="POST">
+              {% csrf_token %}
+              <div class="field textarea border extra">
+                <textarea 
+                  type="text" 
+                  maxlength="300" 
+                  name="new_comment" 
+                ></textarea>
+                <span class="helper">Join the conversation</span>
+              </div>
+              
+              <input 
+                class="button small-round" 
+                type="submit" 
+                value="Submit comment" 
+              />
+            </form>
           {% else %}
-            <li class="uk-panel">
-              <p class="uk-panel-title">
-                <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to join the conversation
-              </p>
-            </li>
+            <div class="row">
+              <a 
+                class="link" 
+                href="{% url 'login' %}"
+              >
+                Login
+              </a> or <a 
+                class="link" 
+                href="{% url 'register' %}"
+              >
+                Register
+              </a> to join the conversation
+            </div>
           {% endif %}
 
-          
+
           {% for comment in comments %}
-            <li class="uk-comment">
-              <div class="uk-comment-header">
-                {% if comment.commentor.avatar %}
-                  <img 
-                    class="uk-comment-avatar" 
-                    src="{% static comment.commentor.avatar.url %}" 
-                    alt="Avatar goes here"
-                    >
-                {% else %}
-                  <img 
-                    class="uk-comment-avatar" 
-                    src="{% static 'images/100-HappyPenguin.png' %}" 
-                    alt="Generic avatar"
-                  >
-                {% endif %}
-                <h4 class="uk-comment-title uk-text-break">
-                  <a href="{% url 'user-profile' comment.commentor.user.id %}">
-                    {{ comment.commentor.name }}
-                  </a>
-                </h4>
-                <div class="uk-comment-meta">On {{comment.date}}</div>
-                <div class="uk-comment-body">
-                  <p class="uk-text-break">
-                    {{ comment.text }}
-                  </p>
-                  {% if comment.commentor.user.id == request.user.id %}
-                  <div class="uk-panel">
-                    <div class="uk-panel-badge uk-badge uk-badge-danger" style="margin-top: -30px;">
-                      <a href="{% url 'delete-comment' article.id comment.id %}">
-                        <i 
-                          class="uk-icon-trash uk-icon-large uk-link-muted" 
-                          style="color: white;"
-                        ></i>
-                      </a>
-                    </div>
-                  </div>
-                  {% endif %}
-                </div>
-              </div>
-            </li>
+            <div class="row">
+              {% if comment.commentor.avatar %}
+                <img 
+                  class="circle tiny" 
+                  src="{% static comment.commentor.avatar.url %}" 
+                  alt="Commentor avatar"
+                >
+              {% else %}
+                <img 
+                  class="circle tiny" 
+                  src="{% static 'images/100-HappyPenguin.png' %}" 
+                  alt="Generic avatar"
+                >
+              {% endif %}
+              <a class="link" href="{% url 'user-profile' comment.commentor.user.id %}">
+                {{ comment.commentor.name }}
+              </a>
+              <span class="small">on {{comment.date}}</span>
+              <p class="max medium-line">
+                {{ comment.text }}
+              </p>
+              {% if comment.commentor.user.id == request.user.id %}
+              <a 
+                class="small-round error" 
+                href="{% url 'delete-comment' article.id comment.id %}"
+              >
+                <i class="fa-regular fa-trash-can"></i>
+              </a>
+              {% endif %}
+            </div>
           {% endfor %}
         {% endif %}
-      </ul>
-  </article>
+      </div>
+    </article>
+  </div>
 </div>
 {% endblock %}

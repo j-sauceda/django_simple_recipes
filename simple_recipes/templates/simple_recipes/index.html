@@ -1,11 +1,13 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<div class="uk-width-medium-1-4">
-  {% include 'simple_recipes/categories_component.html' %}
-</div>
-
-<div class="uk-width-medium-3-4">
-  {% include 'simple_recipes/articles_component.html' %}
+<div class="grid medium-space">
+  <div class="s12 m3 l3">
+    {% include 'simple_recipes/categories_component.html' %}
+  </div>
+  
+  <div class="s12 m9 l9">
+    {% include 'simple_recipes/articles_component.html' %}
+  </div>
 </div>
 {% endblock %}

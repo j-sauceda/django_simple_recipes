@@ -1,112 +1,168 @@
 {% load static %}
 {% block content %}
 
-<h5>Picture gallery</h5>
-
 {% if pictures.count > 0 %}
   <!-- Show carousel -->
-  <div class="uk-slidenav-position" data-uk-slider="{autoplay: true}">
-    <div class="uk-slider-container">
-      <ul class="uk-slider uk-grid-width-small-1-1 uk-grid-width-medium-1-2 uk-grid-width-large-1-3">
-        {% for picture in pictures %}
-          <li><img width="600" height="400" src="{% static picture.image.url %}" alt="Recipe picture"></li>
-        {% endfor %}
-      </ul>
-    </div>
-    <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-previous" data-uk-slider-item="previous"></a>
-    <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-next" data-uk-slider-item="next"></a>
+  <div class="row scroll">
+    {% for picture in pictures %}
+      <img 
+        class="small-height"
+        src="{% static picture.image.url %}" 
+        alt="Recipe picture"
+      >
+    {% endfor %}
   </div>
-  <br>
+  
+  <div class="small-space"></div>
+  
   {% if article.author.user.id == request.user.id %}
-    <div class="uk-align-center">
+    <div class="center-align">
       <!-- UploadPictures Modal Trigger -->
-      <a class="uk-button uk-button-primary uk-button-large" data-uk-modal="{target:'#upload-pictures-modal'}"><i class="uk-icon-upload"></i> Upload Pictures</a>
-      <!-- UploadPictures Modal Structure -->
-      <div id="upload-pictures-modal" class="uk-modal">
-        <div class="uk-modal-dialog">
-          <div class="uk-modal-header"><h4>Upload Pictures</h4></div>
-          <form action="{% url 'upload-pictures' article.id %}" method="POST" enctype="multipart/form-data" class="form">
-            {% csrf_token %}
-            <div class="uk-form-row">
-              <div class="uk-form-file">
-                <input 
-                  accept="image/*" 
-                  id="id_image" 
-                  multiple=""
-                  name="image" 
-                  type="file" 
-                  required
-                >
-              </div>
-            </div>
-            <br><br>
-            <div class="uk-modal-footer">
-              <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
-              <input class="uk-button uk-button-success uk-button-large" type="submit" value="Submit" />
-            </div>
-          </form>
-        </div>
-      </div>
+      <button 
+        class="small-round" 
+        data-ui="#upload-pictures-modal"
+      >
+        <span>Upload Pictures</span>
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+      </button>
+      <!-- UploadPictures Modal body -->
+      <dialog id="upload-pictures-modal" class="dialog">
+        <h6 class="center-align">Upload Pictures</h6>
+        <form 
+          action="{% url 'upload-pictures' article.id %}" 
+          method="POST" 
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="field">
+            <button>
+              <i class="fa-regular fa-image"></i>
+              <span>Select files</span>
+              <input 
+                accept="image/*" 
+                id="id_image" 
+                multiple=""
+                name="image" 
+                type="file" 
+                required
+              >
+            </button>
+          </div>
+          
+          <nav class="center-align">
+            <button 
+              class="small-round error" 
+              data-ui="#upload-pictures-modal"
+            >
+              Cancel
+            </button>
+            <input 
+              class="button small-round" 
+              type="submit" 
+              value="Submit" 
+            />
+          </nav>
+        </form>
+      </dialog>
 
       <!-- deletePictures modal trigger -->
-      <a class="uk-button uk-button-danger uk-button-large" data-uk-modal="{target:'#delete-pictures-modal'}"><i class="uk-icon-trash"></i> Delete Pictures</a>
-      <!-- delete-article modal -->
-      <div id="delete-pictures-modal" class="uk-modal">
-        <div class="uk-modal-dialog">
-          <div class="uk-modal-header"><h4>Delete Pictures</h4></div>
-          {% for picture in pictures %}
-            <article class="uk-comment">
-              <header class="uk-comment-header">
-                <img width="60" height="60" class="uk-comment-avatar" src="{% static picture.image.url %}" alt="{{picture.image}}">
-                <h4 class="uk-comment-title">
-                  {{picture.image}}
-                  <a href="{% url 'delete-picture' picture.image %}" class="uk-button uk-button-danger uk-button-large uk-align-right">
-                    <i class="uk-icon-trash"></i> Delete
-                  </a>
-                </h4>
-              </header>
-<!--               <div class="uk-comment-body">
-              </div> -->
-            </article>
-          {% endfor %}
-          <div class="uk-modal-footer">
-            <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
-          </div>
-        </div>
-      </div>
+      <button 
+        class="small-round error" 
+        data-ui="#delete-pictures-modal"
+      >
+        <span>Delete Pictures</span>
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+      <!-- deletePictures modal body -->
+      <dialog id="delete-pictures-modal" class="dialog">
+        <h6 class="center-align">Delete Pictures</h6>
+        {% for picture in pictures %}
+          <article 
+            class="center-align" 
+            style="padding-bottom: 0.5rem"
+          >
+            <div class="s6">
+              <img 
+                class="small-height small-width" 
+                src="{% static picture.image.url %}" 
+                alt="{{picture.image}}"
+              >
+            </div>
+            <div class="s2">
+              <bold>{{picture.image}}</bold>
+              
+              <div class="small-space"></div>
+              
+              <a 
+                href="{% url 'delete-picture' picture.image %}" 
+                class="button small-round error"
+              >
+                <span>Delete</span>
+                <i class="fa-regular fa-trash-can"></i>
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+        <nav class="center-align">
+          <button class="small-round" data-ui="#delete-pictures-modal">
+            Cancel
+          </button>
+        </nav>
+      </dialog>
+
+      <!-- end deletePictures modal -->
     </div>
   {% endif %}
 {% else %}
   {% if article.author.user.id == request.user.id %}
-    <div class="uk-align-center">
+    <div class="center-align">
       <!-- UploadPictures Modal Trigger -->
-      <a class="uk-button uk-button-primary uk-button-large" data-uk-modal="{target:'#upload-pictures-modal'}"><i class="uk-icon-upload"></i> Upload Pictures</a>
+      <button 
+        class="small-round" 
+        data-ui="#upload-pictures-modal"
+      >
+        <span>Upload Pictures</span>
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+      </button>
       <!-- UploadPictures Modal Structure -->
-      <div id="upload-pictures-modal" class="uk-modal">
-        <div class="uk-modal-dialog">
-          <div class="uk-modal-header"><h4>Upload Pictures</h4></div>
-          <form action="{% url 'upload-pictures' article.id %}" method="POST" enctype="multipart/form-data" class="uk-form">
-            {% csrf_token %}
-            <div class="uk-form-row">
-              <div class="uk-form-file">
-                <label for="id_image">Choose files</button>
-                <input 
-                  accept="image/*" 
-                  id="id_image" 
-                  multiple=""
-                  name="image" 
-                  type="file" 
-                  required
-                >
-              </div>
-            </div>
-            <div class="uk-modal-footer">
-              <a class="uk-button uk-button-primary uk-modal-close uk-button-large">Cancel</a>
-              <input class="uk-button uk-button-success uk-button-large" type="submit" value="Submit" />
-            </div>
-          </form>
-        </div>
-      </div>
+      <dialog id="upload-pictures-modal" class="dialog">
+        <h6 class="center-align">Upload Pictures</h6>
+        <form 
+          action="{% url 'upload-pictures' article.id %}" 
+          method="POST" 
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="field">
+            <button>
+              <i class="fa-regular fa-image"></i>
+              <span>Select files</span>
+              <input 
+                accept="image/*" 
+                id="id_image" 
+                multiple=""
+                name="image" 
+                type="file" 
+                required
+              >
+            </button>
+          </div>
+
+          <nav class="center-align">
+            <button 
+              class="small-round error" 
+              data-ui="#upload-pictures-modal"
+            >
+              Cancel
+            </button>
+            <input 
+              class="button small-round" 
+              type="submit" 
+              value="Submit" 
+            />
+          </nav>
+        </form>
+      </dialog>
     </div>
   {% endif %}
 {% endif %}

@@ -4,32 +4,79 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- UiKit CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css" /> <!-- uk-min -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/components/slider.css" integrity="sha512-pFX5ddP8AGB2r2hb+a86J2ofirQ8DP9/abDWMJU7ufJFBofk1yjhN/LYQiIknR/M+N20xseBjIJ5OO5MHi8iXA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- uk-slider -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/components/slidenav.css" integrity="sha512-X5MiGS6BiKQQdt2/q5bVIDnkmqd6gycuBa9TVxH3RgSMema3ggxKx0z2kZCTA8tA9WOhY6U28PAezSOX3HlepQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- uk-slidenav -->
-  <!-- Summernote CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+  <!-- Beer CSS 3.4.0 -->
+  <link href="/static/css/beer.min.css" rel="stylesheet">
+  
+  <!-- Summernote CSS 0.8.20 -->
+  <link href="/static/css/summernote-lite.min.css" rel="stylesheet">
 
-  <!-- JQuery JS -->
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-  <!-- UiKit JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script> <!-- uk-min -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/components/slider.js" integrity="sha512-XQspfMCjhy6XG6y22B5MXQI9tXtgE/apFKDrCWwjJBEx+Q75E9wAu7sxJlq5YzdnlsS5cel0pEGcMFFd+kUiZA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- uk-slider -->
-  <!-- Summernote editor JS -->
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+  <!-- BeerCSS Theme -->
+  <style>
+    body {
+      --primary:#006a60;
+      --on-primary:#ffffff;
+      --primary-container:#74f8e5;
+      --on-primary-container:#00201c;
+      --secondary:#4a635f;
+      --on-secondary:#ffffff;
+      --secondary-container:#cce8e2;
+      --on-secondary-container:#05201c;
+      --tertiary:#456179;
+      --on-tertiary:#ffffff;
+      --tertiary-container:#cce5ff;
+      --on-tertiary-container:#001e31;
+      --error:#ba1a1a;
+      --on-error:#ffffff;
+      --error-container:#ffdad6;
+      --on-error-container:#410002;
+      --background:#fafdfb;
+      --on-background:#191c1b;
+      --surface:#f7faf8;
+      --on-surface:#191c1b;
+      --surface-variant:#dae5e1;
+      --on-surface-variant:#3f4947;
+      --outline:#6f7977;
+      --outline-variant:#bec9c6;
+      --shadow:#000000;
+      --scrim:#000000;
+      --inverse-surface:#2d3130;
+      --inverse-on-surface:#eff1ef;
+      --inverse-primary:#53dbc9;
+      --surface-dim:#d8dbd9;
+      --surface-bright:#f7faf8;
+      --surface-container-lowest:#ffffff;
+      --surface-container-low:#f2f4f2;
+      --surface-container:#eceeec;
+      --surface-container-high:#e6e9e7;
+      --surface-container-highest:#e0e3e1;
+    }
+  </style>
+
+  <!-- JQuery JS 3.7.1 -->
+  <script src="/static/js/jquery.min.js"></script>
+  
+  <!-- BeerCS JS 3.4.0 -->
+  <script type="module" src="/static/js/beer.min.js"></script>
+  
+  <!-- Summernote editor JS 0.8.20 -->
+  <script src="/static/js/summernote-lite.min.js"></script>
+
+  <!-- FontAwesome icons -->
+  <script
+    src="https://kit.fontawesome.com/b784777401.js"
+    crossorigin="anonymous"
+  ></script>
   
   <title>Simple Recipes</title>
+  <link rel="icon" href="/static/favicon.ico">
 </head>
+
 <body>
-  <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
-    {% include 'navbar.html' %}
-    {% include 'messages.html' %}
-    
-    <div class="uk-grid" data-uk-grid-margin>
-      {% block content %}
-      {% endblock content %}
-    </div>
-  </div>
+  {% include 'navbar.html' %}
+  {% include 'messages.html' %}
+  <main class="responsive center-align middle-align">
+    {% block content %}
+    {% endblock content %}
+  </main>
 </body>
 </html>

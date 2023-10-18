@@ -1,23 +1,34 @@
 {% load static %}
 
 {% if messages %}
-  <div class="container center">
-    {% for message in messages %}
-      <div 
+  {% for message in messages %}
+    <div 
+      {% if not message.tags %}
+        class="snackbar active top primary-border"
+      {% elif message.tags == 'success' %}
+        class="snackbar active top primary"
+      {% elif message.tags == 'warning' %}
+        class="snackbar active top orange3"
+      {% elif message.tags == 'error' %}
+        class="snackbar active top error"
+      {% endif %}
+      id={{ forloop.counter }}
+    >
+      <div class="max">{{ message }}</div>
+      <button 
         {% if not message.tags %}
-          class="uk-alert"
+          class="inverse circle"
         {% elif message.tags == 'success' %}
-          class="uk-alert uk-alert-success"
+          class="inverse circle"
         {% elif message.tags == 'warning' %}
-          class="uk-alert uk-alert-warning"
+          class="inverse orange3 circle"
         {% elif message.tags == 'error' %}
-          class="uk-alert uk-alert-danger"
+          class="inverse error circle"
         {% endif %}
-        data-uk-alert
+        onclick="document.getElementById({{ forloop.counter }}).classList.remove('active')"
       >
-        <a href="" class="uk-alert-close uk-close"></a>
-        <p>{{ message }}</p>
-      </div>
-    {% endfor %}
-  </div>
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+    </div>
+  {% endfor %}
 {% endif %}

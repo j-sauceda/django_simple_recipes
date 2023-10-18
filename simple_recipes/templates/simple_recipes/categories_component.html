@@ -1,55 +1,45 @@
 {% block content %}
 
-<h3>Categories</h3>
-<div class="uk-grid">
-  <div class="uk-grid-medium-1-4">
-    <div class="uk-panel">
-      <a href="{% url 'home' %}">
-        <h3 class="uk-panel-title">
-          All
-        </h3>
-      </a>
-    </div>
-    {% for category in categories %}
-      <div class="uk-panel">
-        <a href="{% url 'home' %}?cat={{category.name}}">
-          <h3 class="uk-panel-title" style="margin-right: 9em;">
-            {{ category }}
-          </h3>
-          <div class="uk-panel-badge uk-badge" style="margin-top: 5px;">
-            {{category.categoryOf.all.count}}
-          </div>
-        </a>
-      </div>
-    {% endfor %}
-  </div>
+<h4 class="center-align">Tags</h4>
+<div class="s12 m3 l3">
+  <a class="row wave" href="{% url 'home' %}">
+    <h6 class="link max">All</h6>
+  </a>
+  {% for category in categories %}
+    <a class="row wave" href="{% url 'home' %}?cat={{category.name}}">
+      <h6 class="link max">{{ category }}</h6>
+      <span class="badge primary square none">
+        {{category.categoryOf.all.count}}
+      </span>
+    </a>
+  {% endfor %}
 </div>
 
 
-<div class="uk-display-inline">
+<div class="tabs">
   <!-- Pagination -->
   {% if num_pages > 1 %}
-  <ul class="uk-pagination">
     {% if categories.has_previous %}
-      <li class="uk-pagination-previous"><a href="{% url 'home' %}?cat_page={{categories.previous_page_number}}">Previous</a></li>
+      <a 
+        class="link"
+        href="{% url 'home' %}?cat_page={{categories.previous_page_number}}"
+      >
+        Previous
+      </a>
     {% else %}
-      <li class="uk-pagination-previous uk-disabled"><span>Previous</span></li>
+      <a class="link active" aria-disabled>First</a>
     {% endif %}
-    
-    {% for i in cat_range %}
-      {% if i == categories.number %}
-        <li class="uk-active"><span>{{i}}</span></li>
-      {% else %}
-        <li><a href="{% url 'home' %}?cat_page={{i}}">{{i}}</a></li>
-      {% endif %}
-    {% endfor %}
     
     {% if categories.has_next %}
-      <li class="uk-pagination-next"><a href="{% url 'home' %}?cat_page={{categories.next_page_number}}">Next</a></li>
+      <a
+        class="link"
+        href="{% url 'home' %}?cat_page={{categories.next_page_number}}"
+      >
+        Next
+      </a>
     {% else %}
-      <li class="uk-pagination-next uk-disabled"><span>Next</span></li>
+      <a class="link active" aria-disabled>Last</a>
     {% endif %}
-  </ul>
   {% endif %}
 </div>
 

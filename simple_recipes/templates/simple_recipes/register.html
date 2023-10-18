@@ -2,66 +2,58 @@
 {% load static %}
 
 {% block content %}
-<div class="uk-height-1-1 uk-container-center">  
-  <div class="uk-vertical-align uk-text-center uk-height-1-1">
-    <div class="uk-vertical-align-middle" style="width: 250px;">
-      <img class="uk-margin-bottom" width="420" height="360" src="https://images.unsplash.com/photo-1542010589005-d1eacc3918f2" alt="">
-      
-      <form method="POST" action="" class="uk-panel uk-panel-box uk-form">
-      {% csrf_token %}
-        <div class="uk-form-row">
-          <i class="uk-icon-user"></i>
-          <label class="uk-form-label" for="id_username">Username:</label>
-          <input 
-            autocapitalize="none" 
-            autocomplete="username" 
-            autofocus=""
-            class="uk-width-1-1 uk-form-large" 
-            id="id_username" 
-            maxlength="150" 
-            name="username" 
-            type="text" 
-            required
-          />
-        </div>
-  
-        <div class="uk-form-row">
-          <i class="uk-icon-key"></i>
-          <label class="uk-form-label" for="id_password1">Password:</label>
-          <input 
-            autocomplete="new-password"
-            class="uk-width-1-1 uk-form-large" 
-            id="id_password1"
-            name="password1" 
-            type="password" 
-            required
-          />
-        </div>
-          
-        <div class="uk-form-row">
-          <i class="uk-icon-key"></i>
-          <label class="uk-form-label" for="id_password2">Password confirmation:</label>
-          <input 
-            class="uk-width-1-1 uk-form-large" 
-            type="password" 
-            name="password2" 
-            autocomplete="new-password" 
-            required
-            id="id_password2"
-          />
-        </div>
-  
-        <div class="uk-form-row">
-          <input class="uk-width-1-1 uk-button uk-button-primary uk-button-large" type="submit" value="Register" />
-        </div>
-        
-        <div class="uk-form-row">
-          <p class="uk-form-row uk-text-small">
-            Already registered? <a href="{% url 'login' %}">Log in</a>
-          </p>
-        </div>
-      </form>
+<div class="medium">
+  <form method="POST" action="">
+  {% csrf_token %}
+    <img width="420" src="https://images.unsplash.com/photo-1542010589005-d1eacc3918f2" alt="">
+
+    <div class="field label prefix border">
+      <i class="fa-regular fa-user"></i>
+      <input 
+        autocapitalize="none" 
+        autocomplete="username" 
+        autofocus=""
+        maxlength="150" 
+        name="username" 
+        type="text" 
+        required
+      />
+      <label>User name</label>
     </div>
-  </div>
+
+    <div class="field label prefix border">
+      <i class="fa-solid fa-key"></i>
+      <input 
+        autocomplete="new-password"
+        class="uk-width-1-1 uk-form-large" 
+        name="password1" 
+        type="password" 
+        required
+      />
+      <label>Password</label>
+    </div>
+
+    <div class="field label prefix border">
+      <i class="fa-solid fa-key"></i>
+      <input 
+        class="uk-width-1-1 uk-form-large" 
+        type="password" 
+        name="password2" 
+        autocomplete="new-password" 
+        required
+      />
+      <label>Confirm password</label>
+    </div>
+
+    <div class="field">
+      <input class="primary responsive square round" type="submit" value="Register" />
+    </div>
+
+    <div>
+      <p>
+        Already registered? <a class="link" href="{% url 'login' %}">Log in</a>
+      </p>
+    </div>
+  </form>
 </div>
 {% endblock content %}

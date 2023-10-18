@@ -1,24 +1,24 @@
 {% load static %}
 {% block content %}
 
-<h3>@{{user.username}} ({{profile.name}})</h3>
+<h6 class="center-align">@{{user.username}} ({{profile.name}})</h6>
 {% if request.user == user %}
-  <a href="{% url 'update-profile' %}">Edit profile</a>
+  <a class="link" href="{% url 'update-profile' %}">Edit profile</a>
 {% endif %}
 
-<p class="article-meta">
+<p class="secondary">
   Member since: {{user.date_joined|timesince}} ago
   Last login: {{user.last_login|timesince}} ago
 </p>
 
 <div class="uk-text-left">
   {% if profile.avatar %}
-    <img width="600" height="400" src="{% static profile.avatar.url %}" alt="Avatar goes here">
+    <img class="responsive" width="600" height="400" src="{% static profile.avatar.url %}" alt="Avatar goes here">
   {% else %}
-    <img width="600" height="400" src="{% static 'images/100-HappyPenguin.png' %}" alt="Generic avatar">
+    <img class="responsive" width="600" height="400" src="{% static 'images/100-HappyPenguin.png' %}" alt="Generic avatar">
   {% endif %}
   <br><br>
-  <div class="uk-article-lead">About me: {{profile.bio}}</div>
+  <div class="tertiary">About me: {{profile.bio}}</div>
 </div>
 
 {% endblock content %}

@@ -316,7 +316,7 @@ def uploadPictures(request, pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-# cancel contact request link
+# delete picture function
 @login_required(login_url='login')  # only logged-in users can access
 def deletePicture(request, pk):
     # read photo from DB
@@ -393,5 +393,6 @@ def home(request):
         'cat_range': num_range,
         'num_pages': num_pages,
         'page_n': page_n,
+        'q': q,
     }
     return render(request, 'simple_recipes/index.html', context)
